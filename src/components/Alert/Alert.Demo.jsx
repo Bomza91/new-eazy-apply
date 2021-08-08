@@ -1,12 +1,18 @@
 import React from 'react';
 import { Alert} from './Alert';
 
+
 export const Demo = () => {
 return <div>
     <Alert title="Hello World!" />
     <Alert title="Hello World!" nature="validation" />
     <Alert title="Hello World!" nature="error" />
-    <Alert title="Hello World!" nature="resolving" />
+    <Alert title="Hello World!" nature="resol  ving" />
+
+
+    <Alert title="Hello World!" nature="validation" description="This is a description message on a specific alert" />
+    <Alert title="Hello World!" nature="error" description="This is a description message on a specific alert" />
+    <Alert title="Hello World!" nature="resol  ving" description="This is a description message on a specific alert" />
    
     </div>
 

@@ -4,6 +4,7 @@ import { Layout } from "../../components/Layout";
 import { Input } from "../../components/Input";
 import { tokens } from "../../data/tokens";
 import { useNewAccount } from "./NewAccount.useNewAccount";
+import { Alert } from '../../components/Alert';
 
 const InputWrapper = styled.div`
   padding: ${tokens.spacing.s} 0;
@@ -18,7 +19,21 @@ export const NewAccount = () => {
     setPassword,
     setConfirmPassword,
     createAccount,
+    Alert,
   } = useNewAccount();
+
+if (true){
+  return(
+    <Layout
+    title="New Account"
+    secondary={["Cancel", "/", false]}
+    primary={["Create Account", false]}
+>
+  <Alert title="Checking details" nature="resolving" />
+  </Layout>
+  )
+ 
+}
   return (
     <Layout
       title="New Account"
@@ -43,6 +58,8 @@ export const NewAccount = () => {
           onChange={setConfirmPassword}
         />
       </InputWrapper>
+
+      
     </Layout>
   );
 };

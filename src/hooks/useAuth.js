@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, createContext, Context } from "react";
 import { users } from "../api/users";
 import { useMount } from "react-use";

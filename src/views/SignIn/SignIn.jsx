@@ -1,11 +1,3 @@
-// import React from 'react';
-
-
-// export const SignIn = () => {
-//      return<div>123</div>
-// }
-// export default SignIn;
-
 import React from "react";
 import styled from "styled-components";
 import { Layout } from "../../components/Layout";

@@ -1,12 +1,4 @@
-// import React from 'react';
-
-
-// export const ResetPassword = () => {
-//      return<div>123</div>
-// }
-// export default ResetPassword;
-
-import React from "react";
+\import React from "react";
 import { Layout } from "../../components/Layout";
 import { Input } from "../../components/Input";
 import { useResetPassword } from "./ResetPassword.useResetPassword";

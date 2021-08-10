@@ -3,7 +3,7 @@ import { Layout } from "../../components/Layout";
 import { Input } from "../../components/Input";
 import styled from "styled-components";
 import { tokens } from "../../data/tokens";
-import { useNewAccount } from "./NewAcount.useNewAccount";
+import { useNewAccount } from "./NewAccount.useNewAccount";
 import { ALERTS } from "./NewAccount.constants";
 
 

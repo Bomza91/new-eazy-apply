@@ -2,7 +2,7 @@ const colors = {
     black: '0, 0, 0',
     white: '255, 255, 255',
     purple: '89, 63, 98',
-}
+};
 
 const radius = {
     none: '0',
@@ -11,7 +11,7 @@ const radius = {
     strong: '27px',
     pill: '1rem',
     circle: '50%',
-}
+};
 
 const opacity = {
     none: '0,',
@@ -21,7 +21,7 @@ const opacity = {
     strong: '75%',
     stronger: '90%',
     solid: '100%',
-}
+};
 
 const text = {
     s: {
@@ -50,7 +50,21 @@ const text = {
 
     }
 
-}
+};
+const highlights = {
+    s: {
+      size: "0.875rem",
+    },
+    m: {
+      size: "1rem",
+    },
+    l: {
+      size: "1,125rem",
+    },
+    xl: {
+      size: "3rem",
+    },
+  };
 
 const spacing = {
     xs: '0.25rem',
@@ -59,7 +73,7 @@ const spacing = {
     l: '2rem',
     xl: '4rem',
     xxl: '8rem'
-}
+};
 
 export const images = {
     xs: '0.875rem',
@@ -72,9 +86,12 @@ export const images = {
 export const tokens = {
     spacing,
     text,
+    images,
     colors,
     opacity,
     radius,
+    highlights,
 }
 
 export default tokens
+ 

@@ -1,8 +1,16 @@
-import React from 'react'
-import { Checkbox } from './Checkbox'
+// import React from 'react'
+// import { Checkbox } from './Checkbox'
 
+// export const Demo = () => {
+//     return <Checkbox />
+// }
+
+// export default Demo
+
+import React from "react";
+import { Checkbox } from "./Checkbox";
+ 
 export const Demo = () => {
     return <Checkbox />
 }
-
-export default Demo
+export default Demo;

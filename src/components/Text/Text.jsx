@@ -1,53 +1,101 @@
-import React from 'react';
-import styled from 'styled-components';
+// import React from 'react';
+// import styled from 'styled-components';
+// import { tokens } from "../../data/tokens";
+// import { Typography } from '@material-ui/core'
+
+// const COLORS = {
+//     white: `rgb(${tokens.colors.white})`,
+//     black: `rgb(${tokens.colors.black})`,
+//     blackMedium: `rgb(${tokens.colors.black}, ${tokens.opacity.medium})`,
+//     blackStronger: `rgb(${tokens.colors.black}, ${tokens.opacity.stronger})`,
+//     blackStrong: `rgb(${tokens.colors.black}, ${tokens.opacity.strong})`,
+//     whiteStrong: `rgb(${tokens.colors.white}, ${tokens.opacity.strong})`,
+//     whiteStronger: `rgb(${tokens.colors.white}, ${tokens.opacity.stronger})`,
+// }
+
+// const calcColor = ({ size, inverse }) => {
+//     if ((size === 'xl' || size === 'l') && inverse ) return COLORS.white;
+//     if (size === 'xl' || size === 'l' ) return COLORS.blackStronger
+//     if (size === 'm' && inverse ) return COLORS.whiteStrong;
+//     if (size === 'm') return COLORS.blackStrong
+//     if (inverse) return COLORS.whiteStrong
+//     return COLORS.blackMedium
+// }
+
+// const StyledTypography = styled(Typography)`
+//      font-size: ${({ size }) => tokens.text[size].size};
+//      font-weight: ${({ size }) => tokens.text[size].weight};
+//      line-height: ${({ size }) => tokens.text[size].height};
+//      letter-spacing: ${({ size }) => tokens.text[size].spacing};
+//      color: ${calcColor};
+// `
+
+// /**
+//  * 
+//  * @typedef {object} props 
+//  * @property {JSX.Element} children
+//  * @property {'s' | 'm' | 'l' | 'xl'} size
+//  * @property {boolean} inverse 
+//  * @property {'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'} component
+//  */
+
+// /**
+//  * 
+//  * @param {props} props 
+//  * @returns {JSX.Element}
+//  */
+
+// export const Text = (props) => {
+    
+//     return <StyledTypography {...props} />
+// }
+
+// export default Text
+
+
+import React from "react";
+import styled from "styled-components";
 import { tokens } from "../../data/tokens";
-import { Typography } from '@material-ui/core'
+import { Typography } from "@material-ui/core";
 
 const COLORS = {
-    white: `rgb(${tokens.colors.white})`,
-    black: `rgb(${tokens.colors.black})`,
-    blackMedium: `rgb(${tokens.colors.black}, ${tokens.opacity.medium})`,
-    blackStronger: `rgb(${tokens.colors.black}, ${tokens.opacity.stronger})`,
-    blackStrong: `rgb(${tokens.colors.black}, ${tokens.opacity.strong})`,
-    whiteStrong: `rgb(${tokens.colors.white}, ${tokens.opacity.strong})`,
-    whiteStronger: `rgb(${tokens.colors.white}, ${tokens.opacity.stronger})`,
-}
+  white: `rgb(${tokens.colors.white})`,
+  black: `rgb(${tokens.colors.black})`,
+  blackMedium: `rgba(${tokens.colors.black}, ${tokens.opacity.medium})`,
+  blackStronger: `rgba(${tokens.colors.black}, ${tokens.opacity.stronger})`,
+  blackStrong: `rgba(${tokens.colors.black}, ${tokens.opacity.strong})`,
+  whiteStrong: `rgba(${tokens.colors.white}, ${tokens.opacity.strong})`,
+  whiteStronger: `rgba(${tokens.colors.white}, ${tokens.opacity.stronger})`,
+};
 
 const calcColor = ({ size, inverse }) => {
-    if ((size === 'xl' || size === 'l') && inverse ) return COLORS.white;
-    if (size === 'xl' || size === 'l' ) return COLORS.blackStronger
-    if (size === 'm' && inverse ) return COLORS.whiteStrong;
-    if (size === 'm') return COLORS.blackStrong
-    if (inverse) return COLORS.whiteStrong
-    return COLORS.blackMedium
-}
-
+  if ((size === "xl" || size === "l ") && inverse) return COLORS.white;
+  if (size === "xl" || size === "l") return COLORS.blackStronger;
+  if (size === "m" && inverse) return COLORS.whiteStronger;
+  if (size === "m") return COLORS.blackStrong
+  if (inverse) return COLORS.whiteStrong
+  return COLORS.blackMedium;
+};
 const StyledTypography = styled(Typography)`
-     font-size: ${({ size }) => tokens.text[size].size};
-     font-weight: ${({ size }) => tokens.text[size].weight};
-     line-height: ${({ size }) => tokens.text[size].height};
-     letter-spacing: ${({ size }) => tokens.text[size].spacing};
-     color: ${calcColor};
-`
-
+  font-size: ${({ size }) => tokens.text[size].size};
+  font-weight: ${({ size }) => tokens.text[size].weight};
+  line-height: ${({ size }) => tokens.text[size].height};
+  letter-spacing: ${({ size }) => tokens.text[size].spacing};
+  color: ${calcColor};
+`;
 /**
- * 
- * @typedef {object} props 
+ * @typedef {object} props
  * @property {JSX.Element} children
  * @property {'s' | 'm' | 'l' | 'xl'} size
- * @property {boolean} inverse 
- * @property {'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'} component
+ * @property {boolean} inverse
+ * @property {'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'| 'h6'}  component
  */
 
 /**
- * 
- * @param {props} props 
+ * @param {props} props
  * @returns {JSX.Element}
  */
-
 export const Text = (props) => {
-    
-    return <StyledTypography {...props} />
-}
-
-export default Text
+  return <StyledTypography {...props} />;
+};
+export default Text;

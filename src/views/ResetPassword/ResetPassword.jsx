@@ -1,7 +1,30 @@
-import React from 'react';
+// import React from 'react';
 
+
+// export const ResetPassword = () => {
+//      return<div>123</div>
+// }
+// export default ResetPassword;
+
+import React from "react";
+import { Layout } from "../../components/Layout";
+import { Input } from "../../components/Input";
+import { useResetPassword } from "./ResetPassword.useResetPassword";
+import { ALERTS } from "./ResetPassword.constant";
 
 export const ResetPassword = () => {
-     return<div>123</div>
-}
+  const {alert, setEmail, email, send} = useResetPassword();
+  return (
+    <Layout
+      form
+      title="Reset Password"
+      primary={["send", send]}
+      secondary={["cancel", "/auth/sigin"]}
+      alert={alert ? ALERTS[alert] : undefined}
+    >
+      <Input label="Email" onChange={setEmail} value={email} />
+    </Layout>
+  );
+};
+
 export default ResetPassword;

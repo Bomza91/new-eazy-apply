@@ -1,7 +1,14 @@
-import React from 'react'
+// import React from 'react'
 
+// export const Image = () => {
+//     return <div>123</div>
+// }
+
+// export default Image
+
+import React from "react";
+ 
 export const Image = () => {
     return <div>123</div>
 }
-
-export default Image
+export default Image;

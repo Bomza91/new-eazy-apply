@@ -11,7 +11,7 @@ export const ResetPassword = () => {
       form
       title="Reset Password"
       primary={["send", send]}
-      secondary={["cancel", "/auth/sigin"]}
+      secondary={["cancel", "/"]}
       alert={alert ? ALERTS[alert] : undefined}
     >
       <Input label="Email" onChange={setEmail} value={email} />

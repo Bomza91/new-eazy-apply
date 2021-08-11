@@ -18,6 +18,8 @@ import {ResetPassword} from "../../views/ResetPassword";
 import {SignIn} from "../../views/SignIn";
 import { EmailSent } from "../../views/EmailSent";
 import ItemsList from "../../views/ItemsList";
+import UserSignIn from "../../views/userSignIn";
+import UserSelect from "../../views/userSelect";
 
 const Demos = ()=>{
   return (
@@ -75,7 +77,17 @@ const Auth = ()=>{
       <Route path="/auth/sent">
         <EmailSent />
       </Route>
+
+      <Route path="/auth/select">
+        <UserSelect />
+      </Route>
+
+      <Route path="/auth/auto">
+        <UserSignIn />
+      </Route>
     </Switch>
+
+    
   );
 }
 

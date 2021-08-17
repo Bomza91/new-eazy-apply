@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { context as authContext } from '../../hooks/useAuth';
 
 import { Demos } from './App.Routing.Demo'

@@ -1,7 +1,10 @@
 import React from 'react';
 
-export const UserSelect = () => {
+
+
+
+export const userSelect = () => {
     return <div>123</div>
 }
 
-export default UserSelect;
+export default userSelect;

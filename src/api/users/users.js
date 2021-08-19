@@ -1,6 +1,8 @@
 import GoTrue from "gotrue-js";
 import { openDB } from "idb";
 
+import '../../types/Users'
+
 const auth = new GoTrue({
   APIUrl: "",
   audience: "",

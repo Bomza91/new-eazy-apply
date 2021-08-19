@@ -1,3 +1,4 @@
+
 import React from 'react'
 import styled  from 'styled-components'
 import { ButtonBase, Avatar } from '@material-ui/core'
@@ -96,4 +97,10 @@ export const ItemPreview = (props) => {
      </Base>
     )
 }
+import React from 'react';
+
+export const ItemPreview = () => {
+    return <div>1231</div>
+}
+
 export default ItemPreview

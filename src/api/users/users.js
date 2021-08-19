@@ -59,7 +59,7 @@ const createUsersApi = () => {
       const { id } = await auth.confirm(token);
 
       await db.put("meta", { id: "current", value: id });
-      await db.put("data", { id: id });
+      
 
       return [true, null];
     } catch (error) {
@@ -76,7 +76,7 @@ const createUsersApi = () => {
         const { id } = await auth.recoveryToken(token);
   
         await db.put("meta", { id: "current", value: id });
-        await db.put("data", { id: id });
+        
   
         return [true, null];
       } catch (error) {

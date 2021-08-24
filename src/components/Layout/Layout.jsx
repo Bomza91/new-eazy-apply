@@ -6,6 +6,7 @@ import { Button } from "../Button";
 import { Link } from "../Link";
 import { Alert } from "../Alert";
 import { useHistory } from "react-router-dom";
+import "../../types/action";
 
 const COLORS = {
   white: `rgb(${tokens.colors.white})`,
@@ -20,13 +21,13 @@ const Base = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  color: ${({ inverse }) => inverse ? COLORS.whiteStronger : COLORS.blackStrong};
-  width:100%;
-  max-width:25rem;
-  max-height:45rem;
-  padding-bottom:${tokens.spacing.xl};
-
-  `;
+  color: ${({ inverse }) =>
+    inverse ? COLORS.whiteStronger : COLORS.blackStrong};
+  width: 100%;
+  max-width: 25rem;
+  max-height: 45rem;
+  
+`;
 
 const Content = styled.div`
   flex-grow: 1;
@@ -34,6 +35,7 @@ const Content = styled.div`
   flex-direction: column;
 `;
 const Nested = styled.div`
+  padding: ${({ padded }) => (padded ? `0 ${tokens.spacing.m}` : 0)};
   flex-grow: 1;
   display: flex;
   justify-content: center;
@@ -51,27 +53,40 @@ const NestedChildren = styled.div`
   width: 100%;
   padding: ${tokens.spacing.m} 0;
 `;
-const BaseWrap = styled.div`
-background: ${({ inverse }) => (inverse ? COLORS.purple : COLORS.white)};
-  min-height:100vh;
-  display: flex;
-  align-items:center;
-  justify-content:center;
 
+const Header = styled.header`
+  padding: ${tokens.spacing.xl} ${tokens.spacing.m} 0;
+`;
+const Actions = styled.aside`
+  padding: 0 ${tokens.spacing.m} ${tokens.spacing.l};
+`;
+
+const BaseWrap = styled.div`
+  background: ${({ $inverse }) => ($inverse ? COLORS.purple : COLORS.white)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
 `;
 const AlertWrap = styled.div`
   padding-bottom: ${tokens.spacing.m};
 `;
+/**
+ *
+ * @typedef {[string, string | function, object]} action
+ *
+ */
 
 /**
  * @typedef {object} props
  * @property {JSX.Element} children
  * @property {string} title
- * @property {boolean} form
  * @property {boolean} inverse
- * @property {[string, string | function]} [primary]
- *  @property {[string, string | function]} [secondary]
- *  @property {[string, string | function]} [extra]
+ * @property {boolean} padded
+ * @property {action} [primary]
+ *  @property {action} [secondary]
+ *  @property {action} [extra]
+ * @property {{ title: string, dscription?: string, nature: 'error' | 'validation' | 'resolving'}}
  */
 
 /**
@@ -80,8 +95,17 @@ const AlertWrap = styled.div`
  */
 
 export const Layout = (props) => {
-  const { children, title, inverse, extra, primary, secondary, alert, form } =
-    props;
+  const {
+    children,
+    title,
+    padded = false,
+    inverse,
+    extra,
+    primary,
+    secondary,
+    alert,
+    form,
+  } = props;
 
   const history = useHistory();
 
@@ -94,61 +118,64 @@ export const Layout = (props) => {
   };
 
   return (
-    <BaseWrap inverse={inverse}>
+    <BaseWrap $inverse={inverse}>
       <Base>
-        <header>
-          <Text inverse={inverse} size="xl" component="h1">
+        <Header>
+          <Text size="xl" component="h1" inverse={inverse}>
             {title}
           </Text>
-        </header>
-        <main>
+        </Header>
+
+        
           <Content
             as={form ? "form" : "div"}
             onSubmit={form ? handleForm : undefined}
           >
-            <Nested>
+            <main>
+            <Nested padded={padded}>
               <NestedChildren>{children} </NestedChildren>
             </Nested>
-
-            {alert && (
-              <AlertWrap>
-                <Alert {...alert} />
-              </AlertWrap>
-            )}
-
-            {secondary && (
-              <ButtonWrap>
-                <Button action={secondary[1]} inverse={inverse} full>
-                  {secondary[0]}
-                </Button>
-              </ButtonWrap>
-            )}
-
-            {primary && (
-              <ButtonWrap>
-                <Button
-                  inverse={inverse}
-                  action={primary[1]}
-                  full
-                  importance="primary"
-                >
-                  {primary[0]}
-                </Button>
-              </ButtonWrap>
-            )}
-
-            {extra && (
-              <LinkWrap>
-                <Link action={extra[1]} inverse={inverse} full>
-                  {extra[0]}
-                </Link>
-              </LinkWrap>
-            )}
-          </Content>
+        
         </main>
+        <Actions aria-label="actions">
+          {alert && (
+            <AlertWrap>
+              <Alert {...alert} />
+            </AlertWrap>
+          )}
+
+          {secondary && (
+            <ButtonWrap>
+              <Button action={secondary[1]} inverse={inverse} full>
+                {secondary[0]}
+              </Button>
+            </ButtonWrap>
+          )}
+
+          {primary && (
+            <ButtonWrap>
+              <Button
+                inverse={inverse}
+                action={primary[1]}
+                full
+                importance="primary"
+              >
+                {primary[0]}
+              </Button>
+            </ButtonWrap>
+          )}
+
+          {extra && (
+            <LinkWrap>
+              <Link action={extra[1]} inverse={inverse} full>
+                {extra[0]}
+              </Link>
+            </LinkWrap>
+          )}
+        </Actions>
+        </Content>
       </Base>
     </BaseWrap>
   );
 };
 export default Layout;
-

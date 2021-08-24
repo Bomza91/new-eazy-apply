@@ -17,48 +17,75 @@ const InputWrap = styled.div`
 const Image = styled(ButtonBase)`
     height: ${tokens.images.l};
     width: ${tokens.images.l};
-    position: relative;
     border-radius: ${tokens.radius.strong};
-    background: rgba(${tokens.colors.black}, ${tokens.opacity.subtler});
+    background-position:50% 50%;
+    background-size: cover;
+    background-image: ${({ image }) => image ? `url('${image})` : 'none'};
+    background-color: rgba(${tokens.colors.black}, ${({ isDraggin}) => tokens.opacity[isDraggin ? 'subtle' : 'subtler']})
+    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+     0px 2px 2px 0px rgb(0 0 0 /14%), 0px 1px 5px 0px rgb(0 0 0 /12%)
 
     &:hover {
-        background: rgba(${tokens.colors.black}, ${tokens.opacity.subtler});
+        ${({ $hasHover }) => !$hasHover ? '' : `background-color: rgba(${tokens.colors.black}, ${tokens.opacity.subtle})` }
     }
 `;
 
-const Camera = styled.div`
-   position: absolute;
-   width: 100px;
-   height: 100px;
-   background: rgba(${tokens.colors.purple});
+const Camera = styled(CameraIcon)`
+   width: ${tokens.images.s};
+   height: ${tokens.images.s};
+   opacity: ${tokens.opacity.strong};
 `
 
 export const CreatePhoto = () => {
-    const { name, setName, alert, save} = useCreatePhoto();
+    const { image, uploadingImage, alert, save, phase, edit} = useCreatePhoto();
 
     const onDrop = ([file]) => { console.log(file) }
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({onDrop})
+    const { getRootProps, getInputProps, isDragActive, open} = useDropzone({onDrop: uploadingImage})
 
-    return (
+if (phase === 'display') {
+return(
     <Layout 
     title="Photo" 
-    primary={['Continue', save]} 
-    secondary={['Cancel', "/"]}
+    form
+    primary={['Save', save]} 
+    secondary={['Change Photo', edit]}
     alert={ALERTS[alert]}
     >
 
-       <Text size="m">Please provide a photo or image to be associated with this account.</Text>
+       <Text size="m">
+           Please provide a photo or image to be associated with this account.
+           </Text>
+
        <InputWrap>
-       <Image {...getRootProps} >
-           <Camera>as</Camera>
-           <Input {...getInputProps} />
-            {
-                isDragActive ? 'drag' : 'not-drag'
-            }
-       </Image>
+       <image image={image} />
        </InputWrap>
-        </Layout>)
+        </Layout>
+)
+
+}
+  return(
+      <Layout 
+      title='photo'
+        form
+        primary={["add photo", () => open()]}
+        secondary={["Back", '/']}
+        alert={ALERTS[alert]}
+      >
+
+      <Text size="m">
+        Please provide a photo or image to be associated with this account.
+      </Text>
+
+      <InputWrap>
+      <Image $hasHover {...getRootProps()} isDragging={isDragActive} image={image}>
+          <Camera />
+          <input {...getInputProps()} />
+
+      </Image>
+      </InputWrap>
+      </Layout>
+  )
 }
 
 export default CreatePhoto;

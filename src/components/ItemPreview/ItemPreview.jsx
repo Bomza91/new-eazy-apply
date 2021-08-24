@@ -2,19 +2,20 @@
 import React from 'react'
 import styled  from 'styled-components'
 import { ButtonBase, Avatar } from '@material-ui/core'
-import tokens, { token } from '../../data/tokens'
+import tokens from '../../data/tokens'
 import {Text} from '../Text'
 import { ArrowForwardIos as ArrowIcon, Star as StarIcon} from '@material-ui/icons'
-import { Children } from 'react'
 
 const Base = styled(ButtonBase)`
-    min-height: 10rem;
+    min-height: ${({ size }) => size === 'm' ? '10rem' : '7rem'};
     width: 100%;
     border-botton: 1px solid
      rgba(${tokens.colors.black}, ${tokens.opacity.subtler});
     text-align: left;
     justify-content: flex-start;
-    padding:${tokens.spacing.i};
+    padding:${tokens.spacing.l};
+
+    border-botton: 1px solid rgba(${tokens.colors.black}, ${({ $first }) => tokens.opacity[first ? 'subtler':'none'] });
     
     &:hover{
         background: rgba(${tokens.colors.purple}, ${tokens.opacity.subtler});
@@ -27,6 +28,9 @@ const Base = styled(ButtonBase)`
         margin-right: ${tokens.spacing.m};
         display: none;
         background-color: rgb(${tokens.colors.purple})
+        box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+         0px 2px 2px 0px rgb(0 0 0 /14%), 0px 1px 5px 0px rgb(0 0 0 /12%)
+
 
         @media (min-width: 400px){
             display: flex;
@@ -50,7 +54,7 @@ const Base = styled(ButtonBase)`
     const TittleWrap = styled.div`
     padding-botton: ${tokens.spacing.xs};
     `
-    const StyledStar = styled.div`
+    const StyledStar = styled(StarIcon)`
         position: absolute;
         top: ${tokens.spacing.s};
         right: ${tokens.spacing.s};
@@ -66,16 +70,32 @@ const Base = styled(ButtonBase)`
         .map(val => val.toUpperCase())
         .slice(0,2)
     
-        return `${firstLetter} ${extraLetters.joinO('')}`;
+        return `${firstLetter} ${extraLetters.join('')}`;
     }
     
+    /**
+     * @typedef {object} props
+     * @property {string} title 
+     * @property {string} [helper] 
+     * @property {'s' | 'm'} [size] 
+     * @property {string} [image] 
+     * @property {boolean} [starred] 
+     * @property {JSX.Element} [children] 
+     * @property {boolean} [first]  
+     */
+
+    /**
+     * 
+     *@param {props} props 
+     * @returns {JSX.Element} 
+     */
 export const ItemPreview = (props) => {
-    const { title, helper, size = "s", image , starred = false, children} = props;
+    const { title, helper, size = "s", image , starred = false, children, first } = props;
 
     const abbr = image ? null : extractAbbr(tittle);
 
     return (
-        <Base href='#'>
+        <Base href='#' $first={first} size={size}>
            <Image size={size} src={image} alt=""> {abbr}</Image>
              
         
@@ -84,8 +104,9 @@ export const ItemPreview = (props) => {
         <TittleWrap>
          <Text siz ="1" line={2}>{title}</Text>
          </TittleWrap>
-         <children />
+      
          <Text siz ="m" line={1}>{helper}</Text>
+         {children}
          </Info>
 
      <ArrowIcon />

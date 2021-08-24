@@ -1,6 +1,6 @@
 import GoTrue from "gotrue-js";
 import { openDB } from "idb";
-
+import {v4 as createId} 'uuid';
 import '../../types/Users'
 
 const auth = new GoTrue({
@@ -19,7 +19,7 @@ const createUsersApi = () => {
   /**
    * @param {string} email
    * @param {string} password
-   * @returns {Promise<[boolean, null |'notAccount' | 'technical']>}
+   * @returns {Promise<[boolean, {id: string} |'noAccount' | 'technical']}
    */
   const signIn = async (email, password) => {
     try {
@@ -27,9 +27,9 @@ const createUsersApi = () => {
       const { id } = await auth.login(email, password);
 
       await db.put("meta", { id: "current", value: id });
-      await db.put("data", { id: id });
+      await db.put("data", { id: id, email });
 
-      return [true, null];
+      return [true, {id}];
     } catch (error) {
       const errorAsString = error.toString();
 
@@ -37,7 +37,7 @@ const createUsersApi = () => {
         errorAsString ===
         "JSONHTTPError: A user with this email address has already been registered"
       ) {
-        return [false, "notAccount"];
+        return [false, "noAccount"];
       }
       if (
         errorAsString ===
@@ -51,7 +51,7 @@ const createUsersApi = () => {
   };
   /**
    * @param {string} token
-   * @returns {Promise<[boolean, null | 'technical']>}
+   * @returns {Promise<[boolean, {id: string} | 'technical']>}
    */
   const signInWithToken = async (token) => {
     try {
@@ -61,14 +61,14 @@ const createUsersApi = () => {
       await db.put("meta", { id: "current", value: id });
       
 
-      return [true, null];
+      return [true, {id}];
     } catch (error) {
       return [false, "techinal"];
     }
   };
     /**
    * @param {string} token
-   * @returns {Promise<[boolean, null | 'technical']>}
+   * @returns {Promise<[boolean, {id: null} | 'technical']>}
    */
      const signInWithRecovery = async (token) => {
       try {
@@ -78,15 +78,36 @@ const createUsersApi = () => {
         await db.put("meta", { id: "current", value: id });
         
   
-        return [true, null];
+        return [true, {id}];
       } catch (error) {
         return [false, "techinal"];
       }
     };
   /**
-   * @param {string} email
-   * @param {string} password
-   * @returns {Promise<[boolean, null |'emailAlreadyUsed' | 'technical']>}
+   * @param {string} name
+   * @param {Blob} image
+   */
+
+  const createLocalAccount = async (name, image) => {
+    const db = await dbRequest;
+    const id = createId()
+
+    const newAccount = {
+      id,
+      name,
+      image,
+      activity: new Date(),
+      type: 'local'
+    }
+    await db.put('data', newAccount)
+    await db.put('meta', {id: 'current', value:id})
+  }
+
+  /**
+   * 
+   * @param {string} email 
+   * @param {string} password 
+   * @returns {Promise,[boolean, {id: string} | 'emailAlreadyUsed|']}
    */
   const createAccount = async (email, password) => {
     try {

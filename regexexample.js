@@ -10,4 +10,4 @@ const extractAbbr = (string) => {
     return `${firstLetter} ${extraLetters.joinO('')}`;
 }
 
-console.log(extractAbbr('Hello this is a long tittle')) 
+// console.log(extractAbbr('Hello this is a long tittle')) 

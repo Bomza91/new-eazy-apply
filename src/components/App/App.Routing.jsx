@@ -9,18 +9,9 @@ import { Create } from "./App.Routing.Create";
 import {LandingPage} from "../../views/general/LandingPage";
 import { EmailSent } from "../../views/general/EmailSent";
 import { ItemsList } from "../../views/ItemsList"
+import { General } from "./App.Routing.General"
 
-const Items = () => {
-  return (
-    <Switch>
-      <Route path="/items/list">
-        <ItemsList />
-      </Route>
-      </Switch>
-   
-  );
-
-}
+import { LandingPage } from "../../views/general/LandingPage"
 
 export const Routing = () => {
   const { loading, user } = useContext(authContext);
@@ -39,30 +30,26 @@ export const Routing = () => {
           {user ? <Items /> :  <Redirect to="/" />}
         </Route>
 
+        <Route path="/sync">
+          { user ? <Redirect to="/" /> : <Auth />}
+        </Route>
+
         <Route path="/auth">
-          { user ? <Redirect to="/items/list" /> : <Auth />}
+          { user ? <Redirect to="/sync/check" /> : <Auth />}
         </Route>
 
         <Route path="/create">
-          { user ? <Redirect to="/items/list" /> : <Create />}
-        </Route>
-
-        <Route path="/sent">
-          <EmailSent />
+          { user ? <Redirect to="/sync/check" /> : <Create />}
         </Route>
 
         <Route path="/">
-        { user ? <Redirect to="/items/list" /> : <LandingPage />}
-
-          
+        { user ? <Redirect to="/sync/check" /> : <LandingPage />}
         </Route>
+
+        <General user={user} />
       </Switch>
     
   );
-
-
-
-
 };
 export default Routing;
 

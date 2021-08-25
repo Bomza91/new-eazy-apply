@@ -19,13 +19,13 @@ const createUsersApi = () => {
    * @param {string} password
    * @returns {Promise<[boolean, null |'notAccount' | 'technical']>}
    */
-  const signIn = async (email, password) => {
+  const signInOnline = async (email, password) => {
     try {
       const db = await dbRequest;
-      const { id } = await auth.login(email, password);
+      const { id, token } = await auth.login(email, password);
 
       await db.put("meta", { id: "current", value: id });
-      await db.put("data", { id: id });
+      await db.put("meta", { id: "accessToken", value: token.access_token });
 
       return [true, null];
     } catch (error) {
@@ -51,15 +51,25 @@ const createUsersApi = () => {
    * @param {string} token
    * @returns {Promise<[boolean, null | 'technical']>}
    */
-  const signInWithToken = async (token) => {
+  const signInOnlineWithToken = async (token) => {
     try {
       const db = await dbRequest;
       const { id } = await auth.confirm(token);
 
-      await db.put("meta", { id: "current", value: id });
-      
+     let cursor = await db.transaction('data').store.openCursor();
+     let result = null;
 
-      return [true, null];
+     while (cursor && result === null) {
+       if (cursor.value.netlifyId === id) {
+         result = cursor.value;
+       }
+
+       cursor = await cursor.continue();
+     }
+      
+     console.log(result)
+
+      return [true, { id }];
     } catch (error) {
       return [false, "techinal"];
     }
@@ -68,17 +78,17 @@ const createUsersApi = () => {
    * @param {string} token
    * @returns {Promise<[boolean, null | 'technical']>}
    */
-     const signInWithRecovery = async (token) => {
+     const signInOnlineWithRecovery = async (token) => {
       try {
         const db = await dbRequest;
         const { id } = await auth.recoveryToken(token);
   
+        await db.put('data', newAccount)
         await db.put("meta", { id: "current", value: id });
-        
-  
-        return [true, null];
+      
+        return [true, { id }];
       } catch (error) {
-        return [false, "techinal"];
+        return [false, "technical"]
       }
     };
   /**
@@ -86,16 +96,24 @@ const createUsersApi = () => {
    * @param {string} password
    * @returns {Promise<[boolean, null |'emailAlreadyUsed' | 'technical']>}
    */
-  const createAccount = async (email, password) => {
+  const changeToOnlineAccount = async (id, email, password) => {
     try {
       const db = await dbRequest;
-      const { id } = await auth.signup(email, password);
+      const { id } = await getCurrent();
+      const { id: netlifyId } = await auth.signup(email, password);
+      console.log(netlifyId, id)
 
-      await db.put("meta", { id: "current", value: id });
-      await db.put("data", { id: id });
+      const newUserData = {
+        ...currentUser, 
+        netlifyId, 
+        email, 
+        type: 'verifying' 
+      }
 
-      await signIn(email, password);
-      return [true, null];
+      await db.put("data", newUserData);
+
+      await signInOnline(email, password);
+      return [true, { id }];
     } catch (error) {
       const errorAsString = error.toString();
 
@@ -135,12 +153,14 @@ const createUsersApi = () => {
    * @param {string} email
    * @returns {[boolean]}
    */
-  const resetPassword = async (email) => {
+  const resetOnlinePassword = async (email) => {
     await auth.requestPasswordRecovery(email);
     return [true];
   };
 
   /**
+   * 
+   * @param {string} email
    * @returns {Promise<[boolean, null | 'technical']>}
    */
   const signOut = async () => {
@@ -156,12 +176,12 @@ const createUsersApi = () => {
   return {
     getCurrent,
     getUsers,
-    createAccount,
-    signIn,
-    signInWithToken,
+    changeToOnlineAccount,
+    signInOnline,
+    signInOnlineWithToken,
     signOut,
-    resetPassword,
-    signInWithRecovery,
+    resetOnlinePassword,
+    signInOnlineWithRecovery,
   };
 };
 

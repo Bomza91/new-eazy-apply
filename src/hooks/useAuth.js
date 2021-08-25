@@ -29,13 +29,13 @@ const useAuthInsideProvider = () => {
     if (recovery) return setUser(recovery);
 
 
-    const currentResponce = await users.getCurrent();
-    if (currentResponce) return setUser(currentResponce);
+    const currentResponse = await users.getCurrent();
+    if (currentResponse) return setUser(currentResponse);
 
     setUser(false);
   });
-  const signIn = async (email, password) => {
-    const [success, payload] = await users.signIn(email, password);
+  const signInOnline = async (email, password) => {
+    const [success, payload] = await users.signInOnline(email, password);
 
     if (success) {
       setUser(payload);
@@ -43,10 +43,29 @@ const useAuthInsideProvider = () => {
     return [success, payload];
   };
 
-  const createAccount = async (email, password) => {
-    const [success, payload] = await users.createAccount(email, password);
+  const changeToOnlineAccount = async (email, password) => {
+    const [success, payload] = await users.changeToOnlineAccount(email, password);
     return [success, payload];
   };
+
+
+  const cancelVerification = () => {
+    const [suecces, payload] = await users.cancelVerification()
+
+    if (success) {
+      setUser({
+
+      })
+    }
+
+    return [success, payload];
+  }
+
+  const signInLocal = async (id) => {
+    const [success, payload] = await users.signInLocal(id)
+
+    console.log[success, payload]
+  }
 
   const signOut = async () => {
     const [success] = await users.signOut();
@@ -60,10 +79,12 @@ const useAuthInsideProvider = () => {
   return {
     loading: users === null,
     user,
-    signIn,
-    createAccount,
+    signInOnline,
+    changeToOnlineAccount,
     signOut,
-    reset: users.resetPassword,
+    signInLocal,
+    createLocalAccount,
+    cancelVerificationS
   };
 };
 

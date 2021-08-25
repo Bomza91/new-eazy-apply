@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import CreateEmail from './CreateEmail';
 
-export const useCreateEmail = () => {
+export const useSyncPassword = () => {
     const history = useHistory();
     const [name, setName] = useState('')
     const [alert, setAlert] = useState(null)
@@ -20,4 +19,4 @@ export const useCreateEmail = () => {
     }
 }
 
-export default useCreateEmail
+export default useSyncPassword

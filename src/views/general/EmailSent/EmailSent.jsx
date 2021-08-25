@@ -16,11 +16,9 @@ const StyledIcon = styled(Icon)`
   color: rgb(${tokens.colors.white}); 
 `;
 
-
-
 export const EmailSent = () => {
   return (
-    <Layout title="Email Sent" inverse secondary={["Cancel", "/"]}>
+    <Layout title="Email Sent" inverse secondary={["Continue", "/"]}>
       <Content>
         <StyledIcon />
         <Text size="l" inverse>

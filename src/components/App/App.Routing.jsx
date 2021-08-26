@@ -1,18 +1,15 @@
 import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { context as authContext } from '../../hooks/useAuth';
 
-import { Demos } from './App.Routing.Demo'
+import { Demos } from './App.Routing.Demos'
 import { Auth } from "./App.Routing.Auth";
 import { Create } from "./App.Routing.Create";
-import { General } from "./App.Routing.General";
-
+import { Sync } from "./App.Routing.Sync";
+import { Items } from "./App.Routing.Items";
 import {LandingPage} from "../../views/general/LandingPage";
-import { EmailSent } from "../../views/general/EmailSent";
-import { ItemsList } from "../../views/ItemsList"
 
-
-
+import { General } from "./App.Routing.General";
 
 export const Routing = () => {
   const { loading, user } = useContext(authContext);
@@ -23,7 +20,7 @@ export const Routing = () => {
   return (
    
       <Switch>
-        <Route path="/demo">
+        <Route path="/demos">
           <Demos />
         </Route>
 
@@ -48,7 +45,7 @@ export const Routing = () => {
         </Route>
 
 
-        <General user={user} />
+        <General  />
       </Switch>
     
   );

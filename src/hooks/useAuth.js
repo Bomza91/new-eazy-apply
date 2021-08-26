@@ -49,12 +49,13 @@ const useAuthInsideProvider = () => {
   };
 
 
-  const cancelVerification = () => {
+  const cancelVerification =  async () => {
     const [suecces, payload] = await users.cancelVerification()
 
     if (success) {
       setUser({
-
+        ...user,
+        type: 'local'
       })
     }
 

@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { EmailSent } from "../../views/general/EmailSent";
 import { LandingPage } from '../../views/general/LandingPage';
 
-export const Sync = (props) => {
+export const General = (props) => {
     const { user } = props;
 
     return (
@@ -19,4 +19,4 @@ export const Sync = (props) => {
     )
 }
 
-export default Sync;
+export default General;

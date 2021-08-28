@@ -18,12 +18,15 @@ export const CreateName = () => {
     return (
     <Layout 
     title="New Account" 
-    primary={['Continue', save]} 
-    secondary={['Cancel', "/"]}
+    padded
+    form
+    primary={['Continue', save, {name}]} 
+    secondary={['Back', "/"]}
     alert={ALERTS[alert]}
     >
 
-       <Text size="m">Provide a name to be associated with this account.</Text>
+       <Text size="m">Provide a name to be associated with this account.
+       </Text>
        <InputWrap>
        <Input accepts="text" label="Your Name" value={name}
        onChange={setName} />

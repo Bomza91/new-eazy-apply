@@ -1,15 +1,13 @@
 import { useState, useContext } from "react";
 import validator from "validator";
-import { context as authContext } from "../../hooks/useAuth";
+import { context as authContext } from "../../../hooks/useAuth";
 
 export const useSignIn = () => {
   const { signIn: authSignIn } = useContext(authContext)
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(null);
   
-
   const signIn = async () => {
     if (!email || email.length < 1) return setAlert ("noEmail");
     if (!password || password.length < 1) return setAlert("noPassword");

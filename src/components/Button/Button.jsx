@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Button as MuiButton } from "@material-ui/core";
 import { tokens } from "../../data/tokens";
 import { Link } from "react-router-dom";
+import '../../types/action'
 
 const COLORS = {
   white: `rgb(${tokens.colors.white})`,
@@ -15,24 +16,24 @@ const COLORS = {
   whiteStronger: `rgba(${tokens.colors.white}), ${tokens.opacity.stronger}`,
 };
 
-const calcBackground = ({ importance, inverse }) => {
-  if (importance === "primary" && inverse) return COLORS.white;
-  if (inverse || importance === "secondary") return COLORS.none;
+const calcBackground = ({ importance, $inverse }) => {
+  if (importance === "primary" && $inverse) return COLORS.white;
+  if ($inverse || importance === "secondary") return COLORS.none;
   return COLORS.purple;
 };
-const calcColor = ({ importance, inverse }) => {
-  if (importance === "primary" && inverse) return COLORS.purple;
-  if (inverse || importance === "primary") return COLORS.white;
+const calcColor = ({ importance, $inverse }) => {
+  if (importance === "primary" && $inverse) return COLORS.purple;
+  if ($inverse || importance === "primary") return COLORS.white;
   return COLORS.purple;
 };
-const calcBorder = ({ importance, inverse }) => {
+const calcBorder = ({ importance, $inverse }) => {
   if (importance === "primary") return `1px solid ${COLORS.none}`;
-  if (inverse) return `1px solid ${COLORS.white}`;
+  if ($inverse) return `1px solid ${COLORS.white}`;
   return `1px solid ${COLORS.purple}`;
 };
-const calcHover = ({ importance, inverse }) => {
-  if (importance === "primary" && inverse) return COLORS.whiteStronger;
-  if (inverse) return COLORS.whiteSubtler;
+const calcHover = ({ importance, $inverse }) => {
+  if (importance === "primary" && $inverse) return COLORS.whiteStronger;
+  if ($inverse) return COLORS.whiteSubtler;
   if (importance === "primary") return COLORS.purpleStronger;
   return COLORS.purpleSubtler;
 };
@@ -70,7 +71,7 @@ const StyledButton = styled(MuiButton)`
  * @property {JSX.Elements} children
  * @property {'primary' | 'secondary'} importance
  * @property {boolean}  inverse
- * @property {string | function} action
+ * @property {action} action
  */
 
 /**
@@ -90,12 +91,14 @@ export const Button = (props) => {
   const actionProps = calcActionProps(action);
   return (
     <StyledButton
+    $inverse={inverse}
       importance={importance}
       children={children}
       {...actionProps}
       fullWidth={full}
       inverse={inverse}
       variant={variant}
+      {...actionProps}
     />
   );
 };

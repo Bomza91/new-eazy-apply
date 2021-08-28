@@ -1,10 +1,9 @@
 import { useState, useContext } from "react";
 import validator from "validator";
 import { useHistory } from "react-router";
-import { context as authContext } from "../../hooks/useAuth";
+import { users } from '../../../api/users'
 
 export const useResetPassword = () => {
-  const { reset } = useContext(authContext);
   const history = useHistory();
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState(null);
@@ -14,7 +13,7 @@ export const useResetPassword = () => {
     if (!validator.isEmail(email)) return setAlert("formatEmail");
 
     setAlert("checking");
-    await reset(email);
+    await users.reset(email);
     history.push("/auth/sent");
   };
   return {

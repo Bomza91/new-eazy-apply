@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import { context as authContext } from '../../hooks/useAuth';
 
+import { Demos } from './App.Routing.Demo'
+import { Auth } from "./App.Routing.Auth";
+import { Create } from "./App.Routing.Create";
 
+<<<<<<< HEAD
 import { Demo as ButtonDemo } from "../Button/Button.Demo";
 import { Demo as CheckboxDemo } from "../Checkbox/Checkbox.Demo";
 import { Demo as ImageDemo } from "../Image/Image.Demo";
@@ -90,12 +94,17 @@ const Auth = ()=>{
     
   );
 }
+=======
+import {LandingPage} from "../../views/general/LandingPage";
+import { EmailSent } from "../../views/general/EmailSent";
+import { ItemsList } from "../../views/ItemsList"
+>>>>>>> 4fbedd8768b3e2fe26f7f7e92bd4e3deb415e831
 
 const Items = () => {
   return (
     <Switch>
       <Route path="/items/list">
-        < ItemsList/>
+        <ItemsList />
       </Route>
       </Switch>
    
@@ -117,22 +126,33 @@ export const Routing = () => {
         </Route>
 
         <Route path="/items">
-          {user ? <Items /> :  <LandingPage />}
+          {user ? <Items /> :  <Redirect to="/" />}
         </Route>
 
         <Route path="/auth">
-        
-          { user ? <ItemsList /> : <Auth />}
+          { user ? <Redirect to="/items/list" /> : <Auth />}
+        </Route>
+
+        <Route path="/create">
+          { user ? <Redirect to="/items/list" /> : <Create />}
+        </Route>
+
+        <Route path="/sent">
+          <EmailSent />
         </Route>
 
         <Route path="/">
-        { user ? <ItemsList /> : <LandingPage />}
+        { user ? <Redirect to="/items/list" /> : <LandingPage />}
 
           
         </Route>
       </Switch>
     
   );
+
+
+
+
 };
 export default Routing;
 

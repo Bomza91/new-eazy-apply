@@ -1,15 +1,14 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { context as authContext } from '../../../hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 
 export const useCreatePhoto = () => {
+    const { createLocalAccount } = useContext(authContext)
     const history = useHistory();
-    const [name, setName] = useState('')
-    const [alert, setAlert] = useState(null)
+    const { state } = useLocation();
 
-    const save = () => {
-       if (!name || name.trim() === '') return setAlert('noName')
-       history.push('/auth/photo')
-    }
+       if (!state || !state.name) history.push('/create/name')
+ 
 
     return {
         setName,

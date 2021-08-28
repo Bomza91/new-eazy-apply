@@ -27,18 +27,18 @@ const StyledTextField = styled(TextField)`
  */
 export const Input = (props) => {
   const { accepts,label,onChange ,value} = props;
+  const handleChange = (event) => onChange(event.target.value);
 
-  const handleChange = (event) =>onChange(event.target.value);
   return (
     <StyledTextField
     value={value}
     label ={label}
-    // {...props}
-     disabled={onChange}
+    disabled={!onChange}
     onChange={handleChange}
-      fullWidth
+    fullWidth
     InputProps={{type:accepts}}
-      variant="filled"
+    variant="filled"
+    autoComplete='off'
     />
   );
 };

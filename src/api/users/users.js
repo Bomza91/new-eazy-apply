@@ -20,10 +20,18 @@ const createUsers = () => {
    */
   const signInOnline = async (email, password) => {
     try {
+<<<<<<< HEAD
+      const db = await dbRequest;
+      const { id, token } = await auth.login(email, password);
+
+      await db.put("meta", { id: "current", value: id });
+      await db.put("meta", { id: "accessToken", value: token.access_token });
+=======
       const { id } = await auth.login(email, password);
 
       await db.setMeta('current', id)
       await db.setMeta('accessToken', token.access_token)
+>>>>>>> main
 
       return [true, {id}];
     } catch (error) {
@@ -49,7 +57,7 @@ const createUsers = () => {
    * @param {string} token
    * @returns {Promise<[boolean, {id: string} | 'technical']>}
    */
-  const signInWithToken = async (token) => {
+  const signInOnlineWithToken = async (token) => {
     try {
       const { id: netlifyId } = await auth.confirm(token);
       const result = db.search((singleUser) => singleUser.netlifyId === netlifyId)
@@ -60,11 +68,28 @@ const createUsers = () => {
         netlifyId,
       }
 
+<<<<<<< HEAD
+     let cursor = await db.transaction('data').store.openCursor();
+     let result = null;
+
+     while (cursor && result === null) {
+       if (cursor.value.netlifyId === id) {
+         result = cursor.value;
+       }
+
+       cursor = await cursor.continue();
+     }
+      
+     console.log(result)
+
+      return [true, { id }];
+=======
       await db.update(newUserData)
       // await dbStore.setMeta('current', id)
       await db.setMeta('accessToken', token.access_token)
 
    return [ true, newUserData];
+>>>>>>> main
     } catch (error) {
       return [false, 'technical';]
     }
@@ -74,20 +99,53 @@ const createUsers = () => {
    * @param {string} token
    * @returns {Promise<[boolean, {id: null} | 'technical']>}
    */
+<<<<<<< HEAD
+     const signInOnlineWithRecovery = async (token) => {
+=======
   
      const signInOnliWithRecovery = async (token) => {
+>>>>>>> main
       try {
         const { id } = await auth.recoveryToken(token);
+<<<<<<< HEAD
+  
+        await db.put('data', newAccount)
+        await db.put("meta", { id: "current", value: id });
+      
+        return [true, { id }];
+=======
         await db.setMeta("current",id);
         return [true, {id}];
+>>>>>>> main
       } catch (error) {
-        return [false, "techinal"];
+        return [false, "technical"]
       }
     };
   /**
    * @param {string} name
    * @param {Blob} image
    */
+<<<<<<< HEAD
+  const changeToOnlineAccount = async (id, email, password) => {
+    try {
+      const db = await dbRequest;
+      const { id } = await getCurrent();
+      const { id: netlifyId } = await auth.signup(email, password);
+      console.log(netlifyId, id)
+
+      const newUserData = {
+        ...currentUser, 
+        netlifyId, 
+        email, 
+        type: 'verifying' 
+      }
+
+      await db.put("data", newUserData);
+
+      await signInOnline(email, password);
+      return [true, { id }];
+    } catch (error) {
+=======
 
   const createLocalAccount = async (name, image) => {
     const id = db.generateId()
@@ -125,6 +183,7 @@ const createUsers = () => {
       await db.update(newUserData);
        return [true, newUserData];
     } catch (error){
+>>>>>>> main
       const errorAsString = error.toString();
 
       if (
@@ -167,6 +226,10 @@ const createUsers = () => {
   };
 
   /**
+<<<<<<< HEAD
+   * 
+   * @param {string} email
+=======
    * @param {string} id
    * @returns {Promise<[boolean, null | 'technical']>}
    */
@@ -183,6 +246,7 @@ const createUsers = () => {
      }
    
   /**
+>>>>>>> main
    * @returns {Promise<[boolean, null | 'technical']>}
    */
   const signOut = async () => {
@@ -205,6 +269,14 @@ const createUsers = () => {
   return {
     getCurrent,
     getUsers,
+<<<<<<< HEAD
+    changeToOnlineAccount,
+    signInOnline,
+    signInOnlineWithToken,
+    signOut,
+    resetOnlinePassword,
+    signInOnlineWithRecovery,
+=======
     createAccount,
     signInOnline,
     signInWithToken,
@@ -214,6 +286,7 @@ const createUsers = () => {
     resetOnlinePassword,
     signInOnliWithRecovery,
     createLocalAccount,
+>>>>>>> main
   };
 };
 

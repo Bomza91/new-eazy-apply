@@ -3,15 +3,15 @@ import { Layout } from "../../../components/Layout";
 import { Input } from "../../../components/Input";
 import styled from "styled-components";
 import { tokens } from "../../../data/tokens";
-import { useNewAccount } from "./NewAccount.useNewAccount";
-import { ALERTS } from "./NewAccount.constants";
+import { useSyncEmail } from "./SyncEmail.useSyncEmail";
+import { ALERTS } from "./SyncEmail.constants";
 
 
 const InputWrapper = styled.div`
 padding: ${tokens.spacing.s};
 `;
 
-export const NewAccount = () => {
+export const SyncEmail = () => {
 
 
   const {
@@ -23,17 +23,17 @@ export const NewAccount = () => {
     setConfirmPassword,
     createAccount,
     alert,
-  } = useNewAccount();
+  } = useSyncEmail();
   
   const isResting = alert !== "creating";
   return (
     <Base>
       <Layout
       form
-        title="New Acount"
+        title="Online Details"
         alert={alert ? ALERTS[alert] : undefined}
         secondary={["Cancel", isResting && "/"]}
-        primary={["Create Account", isResting && createAccount]}
+        primary={["Sync Account", isResting && createAccount]}
       >
         <InputWrapper>
           <Input
@@ -59,11 +59,11 @@ export const NewAccount = () => {
             value={confirmPassword}
             label=" Confirm Password"
             accepts="password"
-            onChange={isResting && setconfirmPassword}
+            onChange={isResting && setConfirmPassword}
           />
         </InputWrapper>
       </Layout>
     </Base>
   );
 };
-export default NewAccount;
+export default SyncEmail;

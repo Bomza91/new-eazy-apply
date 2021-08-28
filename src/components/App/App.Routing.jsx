@@ -1,10 +1,15 @@
 import React, { useContext } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { context as authContext } from '../../hooks/useAuth';
 
-import { Demos } from './App.Routing.Demo'
+import { Demos } from './App.Routing.Demos'
 import { Auth } from "./App.Routing.Auth";
 import { Create } from "./App.Routing.Create";
+<<<<<<< HEAD
+import { Sync } from "./App.Routing.Sync";
+import { Items } from "./App.Routing.Items";
+import {LandingPage} from "../../views/general/LandingPage";
+=======
 
 <<<<<<< HEAD
 import { Demo as ButtonDemo } from "../Button/Button.Demo";
@@ -109,8 +114,9 @@ const Items = () => {
       </Switch>
    
   );
+>>>>>>> main
 
-}
+import { General } from "./App.Routing.General";
 
 export const Routing = () => {
   const { loading, user } = useContext(authContext);
@@ -121,7 +127,7 @@ export const Routing = () => {
   return (
    
       <Switch>
-        <Route path="/demo">
+        <Route path="/demos">
           <Demos />
         </Route>
 
@@ -129,30 +135,27 @@ export const Routing = () => {
           {user ? <Items /> :  <Redirect to="/" />}
         </Route>
 
+        <Route path="/sync">
+          { user ? <Redirect to="/" /> : <Auth />}
+        </Route>
+
         <Route path="/auth">
-          { user ? <Redirect to="/items/list" /> : <Auth />}
+          { user ? <Redirect to="/sync/check" /> : <Auth />}
         </Route>
 
         <Route path="/create">
-          { user ? <Redirect to="/items/list" /> : <Create />}
-        </Route>
-
-        <Route path="/sent">
-          <EmailSent />
+          { user ? <Redirect to="/sync/check" /> : <Create />}
         </Route>
 
         <Route path="/">
-        { user ? <Redirect to="/items/list" /> : <LandingPage />}
-
-          
+        { user ? <Redirect to="/sync/check" /> : <LandingPage />}
         </Route>
+
+
+        <General  />
       </Switch>
     
   );
-
-
-
-
 };
 export default Routing;
 

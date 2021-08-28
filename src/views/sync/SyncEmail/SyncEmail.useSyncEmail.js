@@ -36,7 +36,7 @@ export const useSyncEmail = () => {
       const response = await auth.signup(email,password);
       console.log(response)
 
-      const [success, code] = await creatOnlineAccount(email, password)
+      const [success, code] = await createOnlineAccount(email, password)
 
       if (!success){
         return setAlert(code)

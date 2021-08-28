@@ -9,9 +9,9 @@ import { Provider as AuthProvider } from "../../hooks/useAuth";
 const fireAlert = (registration) => {
   registration.showNotification("Hi there!", {
     body: "This is a description with more details",
-    badge: "https://our-biz-app.netlify.app/meta/camera.png",
-    icon: "https://our-biz-app.netlify.app/meta/camera.png",
-    image: "https://our-biz-app.netlify.app/meta/cover-image.jpeg",
+    badge: "https://new-eazy-apply.netlify.app/meta/camera.png",
+    icon: "https://new-eazy-apply.netlify.app/meta/camera.png",
+    image: "https://new-eazy-apply.netlify.app/meta/cover-image.jpeg",
     action: [
       {
         actions: "add",

@@ -1,48 +1,59 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import { Demo as ButtonDemo } from '../Button/Button.Demo'
-import { Demo as CheckboxDemo } from '../Checkbox/Checkbox.Demo'
-import { Demo as ImageDemo } from '../Image/Image.Demo'
-import { Demo as InputDemo } from '../Input/Input.Demo'
-import { Demo as LayoutDemo } from '../Layout/Layout.Demo'
-import { Demo as TextDemo } from '../Text/Text.Demo'
-import { Demo as LinkDemo } from '../Link/Link.Demo'
-import { Demo as  AlertDemo} from '../Alert/Alert.Demo'
+import { Demo as Button } from '../Button/Button.Demo'
+import { Demo as Checkbox } from '../Checkbox/Checkbox.Demo'
+import { Demo as Image } from '../Image/Image.Demo'
+import { Demo as Input } from '../Input/Input.Demo'
+import { Demo as Layout} from '../Layout/Layout.Demo'
+import { Demo as Text } from '../Text/Text.Demo'
+import { Demo as Link } from '../Link/Link.Demo'
+import { Demo as  Alert} from '../Alert/Alert.Demo'
+import { Demo as  ItemPreview} from '../ItemPreview/ItemPreview.Demo'
+import { Demo as  CustomIcon} from '../CustomIcon/CustomIcon.Demo'
+
 
 export const Demos = () => {
     return (
         <Switch>
             <Route path="/demo/button">
-                <ButtonDemo />
+                <Button />
+            </Route>
+
+            <Route path="/demo/customIcon">
+                <CustomIcon />
             </Route>
 
             <Route path="/demo/checkbox">
-                <CheckboxDemo />
+                <Checkbox />
             </Route>
 
             <Route path="/demo/image">
-                <ImageDemo />
+                <Image />
             </Route>
 
             <Route path="/demo/input">
-                <InputDemo />
+                <Input />
             </Route>
 
             <Route path="/demo/layout">
-                <LayoutDemo />
+                <Layout />
             </Route>
 
             <Route path="/demo/text">
-                <TextDemo />
+                <Text />
             </Route>
 
-            <Route path="/demo/Link">
-                <LinkDemo />
+            <Route path="/demo/link">
+                <Link />
             </Route>
 
             <Route path="/demo/alert">
-                <AlertDemo />
+                <Alert />
+            </Route>
+
+            <Route path="/demo/itemPreview">
+                <ItemPreview />
             </Route>
 
         </Switch>

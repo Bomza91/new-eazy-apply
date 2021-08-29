@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { tokens } from "../../data/tokens";
 import { Text } from "../Text";
+import { Dialog } from "@material-ui/core";
 import { Button } from "../Button";
 import { Link } from "../Link";
 import { Alert } from "../Alert";
@@ -10,14 +11,13 @@ import "../../types/action";
 
 const COLORS = {
   white: `rgb(${tokens.colors.white})`,
-  purple: `rgb(${tokens.colors.purple})`,
-  whiteStronger: `rgb(${tokens.colors.white}),${tokens.opacity.stronger}`,
-  blackStrong: `rgb(${tokens.colors.black}),${tokens.opacity.strong}`,
+  turquoise: `rgb(${tokens.colors.turquoise})`,
+  whiteStronger: `rgb(${tokens.colors.white}) ${tokens.opacity.stronger})`,
+  blackStrong: `rgb(${tokens.colors.black}) rgb(${tokens.opacity.strong})`,
 };
 
 const Base = styled.div`
   text-align: center;
-  padding: ${tokens.spacing.xl} ${tokens.spacing.m} ${tokens.spacing.l};
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -26,7 +26,6 @@ const Base = styled.div`
   width: 100%;
   max-width: 25rem;
   max-height: 45rem;
-  
 `;
 
 const Content = styled.div`
@@ -34,12 +33,12 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Nested = styled.div`
-  padding: ${({ padded }) => (padded ? `0 ${tokens.spacing.m}` : 0)};
   flex-grow: 1;
   display: flex;
   justify-content: center;
-  align-items: center; ;
+  align-items: center;
 `;
 
 const ButtonWrap = styled.div`
@@ -49,44 +48,49 @@ const ButtonWrap = styled.div`
 const LinkWrap = styled.div`
   padding: ${tokens.spacing.m} ${tokens.spacing.xs} ${tokens.spacing.xs};
 `;
+
 const NestedChildren = styled.div`
   width: 100%;
-  padding: ${tokens.spacing.m} 0;
-`;
-
-const Header = styled.header`
-  padding: ${tokens.spacing.xl} ${tokens.spacing.m} 0;
-`;
-const Actions = styled.aside`
-  padding: 0 ${tokens.spacing.m} ${tokens.spacing.l};
+  padding: ${tokens.spacing.l} 0;
 `;
 
 const BaseWrap = styled.div`
-  background: ${({ $inverse }) => ($inverse ? COLORS.purple : COLORS.white)};
+  background: ${({ $inverse }) => ($inverse ? COLORS.turquoise : COLORS.white)};
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100%;
 `;
+
 const AlertWrap = styled.div`
   padding-bottom: ${tokens.spacing.m};
 `;
-/**
- *
- * @typedef {[string, string | function, object]} action
- *
- */
+
+const Header = styled.header`
+padding: ${tokens.spacing.xl} ${tokens.spacing.m} 0};
+`;
+
+const OverlayHeader = styled.header`
+padding: ${tokens.spacing.xl} ${tokens.spacing.m} 0};
+text-align: center;
+`;
+
+const Actions = styled.aside`
+  padding: 0 ${tokens.spacing.m} ${tokens.spacing.l};
+`;
 
 /**
  * @typedef {object} props
+ * @property {boolean} overlay
  * @property {JSX.Element} children
  * @property {string} title
+ * @property {boolean}
  * @property {boolean} inverse
  * @property {boolean} padded
  * @property {action} [primary]
- *  @property {action} [secondary]
- *  @property {action} [extra]
- * @property {{ title: string, dscription?: string, nature: 'error' | 'validation' | 'resolving'}}
+ * @property {action} [secondary]
+ * @property {action} [extra]
+ * @property {[tittle: string, description?: string, nature: 'error' | 'validation' | 'resolving']}
  */
 
 /**
@@ -105,16 +109,32 @@ export const Layout = (props) => {
     secondary,
     alert,
     form,
+    overlay,
   } = props;
 
   const history = useHistory();
 
   const handleForm = (event) => {
     event.preventDefault();
+
     if (typeof primary[1] === "string") {
-      return history.to(primary[1]);
+      const newLocation = { pathname: primary[1], state: primary[2] || {} };
+      return history.push(newLocation);
     }
     primary[1]();
+
+    if (overlay) {
+      return (
+        <Dialog open>
+          <OverlayHeader>
+            <Text size="xl" component="h2">
+              {title}
+            </Text>
+          </OverlayHeader>
+          {children}
+        </Dialog>
+      );
+    }
   };
 
   return (
@@ -126,56 +146,64 @@ export const Layout = (props) => {
           </Text>
         </Header>
 
-        
-          <Content
-            as={form ? "form" : "div"}
-            onSubmit={form ? handleForm : undefined}
-          >
-            <main>
-            <Nested padded={padded}>
-              <NestedChildren>{children} </NestedChildren>
-            </Nested>
-        
-        </main>
-        <Actions aria-label="actions">
-          {alert && (
-            <AlertWrap>
-              <Alert {...alert} />
-            </AlertWrap>
-          )}
+        <Content
+          as={form ? "form" : "div"}
+          onSubmit={form ? handleForm : undefined}
+        >
+          <Nested padded={padded}>
+            <NestedChildren>{children}</NestedChildren>
+          </Nested>
 
-          {secondary && (
-            <ButtonWrap>
-              <Button action={secondary[1]} inverse={inverse} full>
-                {secondary[0]}
-              </Button>
-            </ButtonWrap>
-          )}
+          <Actions aria-label="actions"> 
+            {alert && (
+              <AlertWrap>
+                <Alert {...alert} />
+              </AlertWrap>
+            )}
 
-          {primary && (
-            <ButtonWrap>
-              <Button
-                inverse={inverse}
-                action={primary[1]}
-                full
-                importance="primary"
-              >
-                {primary[0]}
-              </Button>
-            </ButtonWrap>
-          )}
+            {secondary && (
+              <ButtonWrap>
+                <Button
+                  action={(form && !primary) || secondary[1]}
+                  detail={secondary[1] || {}}
+                  inverse={inverse}
+                  full
+                >
+                  {secondary[0]}
+                </Button>
+              </ButtonWrap>
+            )}
 
-          {extra && (
-            <LinkWrap>
-              <Link action={extra[1]} inverse={inverse} full>
-                {extra[0]}
-              </Link>
-            </LinkWrap>
-          )}
-        </Actions>
+            {primary && (
+              <ButtonWrap>
+                <Button
+                  action={form || primary[1]}
+                  inverse={inverse}
+                  full
+                  detail={primary[2] || {}}
+                  importance="primary"
+                >
+                  {primary[0]}
+                </Button>
+              </ButtonWrap>
+            )}
+
+            {extra && (
+              <LinkWrap>
+                <Link
+                  action={extra[1]}
+                  detail={extra[2] || {}}
+                  inverse={inverse}
+                >
+                  {extra[0]}
+                </Link>
+              </LinkWrap>
+            )}
+          </Actions>
         </Content>
       </Base>
     </BaseWrap>
   );
 };
+
 export default Layout;

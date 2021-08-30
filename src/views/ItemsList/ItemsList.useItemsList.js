@@ -1,38 +1,43 @@
 import { useContext, useState } from "react";
 import { useMount } from "react-use";
-import { shoots } from "../../../api/shoots";
+import { institutions } from "../../api/institutions"
 import { context as authContext } from "../../../hooks/useAuth";
-import "../../../types/shoot";
+import "../../types/Institution";
+
 
 export const useItemsList = () => {
   const { user, signOut } = useContext(authContext);
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [priceInCents, setPriceInCents] = useState("");
+  const [institution, setInstitution] = useState("")
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
+  const [Province, setProvince] = useState("");
+  const [website, setWebsite] = useState("");
+  const [type, setType] = useState("");
 
   /**
-   * @type {[Shoot[], (newValue: Shoot[]]) => void}
+   * @type {[institution[], (newValue: institution[]]) => void}
    */
   const [list, setList] = useState([]);
   const [alert, setAlert] = useState(null);
+
 
   /**
    * @type {Record<Exclude<shootKey, 'id'>, (newValue: any) => void}
    */
   const updateFns = {
-    date: (dateString) => setDate(new Date(dateString)),
-    location: setLocation,
-    name: setName,
-    priceInCents: setPriceInCents,
-    surname: setSurname,
+    institution: setInstitution,
+    title: setTitle,
+    image: setImage,
+    Province: setProvince,
+    website: setWebsite,
+    type: setType,
+    
   };
 
   /**
-   *  @param {shootKey} key
+   *  @param {instuitutionKey} key
    */
-  const update = (key) => (value) => {
+  const update =  (key) => (value) => {
     const fn = updateFns[key];
     fn(value);
   };
@@ -50,24 +55,25 @@ export const useItemsList = () => {
    */
   const submit = async (event) => {
     event.preventDefault();
-    if (!name || name.trim() === "") return setAlert("missingName");
-    if (!surname || surname.trim() === "") return setAlert("missingSurname");
+    if (!title || title.trim() === "")  return setAlert("missingName");
 
-    /** @type {Shoot} */
-    const response = await shoots.add({
-      date: date || null,
-      location: location || null,
-      name: name || null,
-      priceInCents: priceInCents || null,
-      surname: surname || null,
+    /** @type {institution} */
+
+    const response = await institution.add({
+      institution: setInstitution || null,
+    title: setTitle || null,
+    image: setImage || null,
+    Province: setProvince || null,
+    website: setWebsite || null,
+    type: setType || null,
     });
 
     setList([response, ...list]);
   };
 
   useMount(async () => {
-    const result = await shoots.search(true, {
-      sorting: "priceInCents",
+    const result = await institution.search(true, {
+      sorting: "title",
       reverse: true,
     });
 
@@ -84,13 +90,13 @@ export const useItemsList = () => {
   });
 
   return {
-    date: date ? `${formatDate(date, 'yyyy-MM-dd')}T${formatDate(date, 'hh:mm')}` : '',
     update,
-    location,
-    name,
-    priceInCents,
-    surname,
-    user,
+    institution,
+    title,
+    image,
+    Province,
+    website,
+    type,
     signOut,
     submit,
     list,

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useMount } from "react-use";
-import { institutions } from "../../api/institutions"
+import { institution } from "../../api/institution"
 import { context as authContext } from "../../../hooks/useAuth";
 import "../../types/Institution";
 
